@@ -39,38 +39,47 @@ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen win
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
+//	{ "[]=",      tile },    /* first entry is default */
+//	{ "><>",      NULL },    /* no layout function means floating behavior */
+//	{ "[M]",      monocle },
+/* key definitions */
+#define MODKEY Mod1Mask
+	{ "ﱖ    ",      tile },    /* first entry is default */
+	{ "    ",      NULL },    /* no layout function means floating behavior */
+	{ "    ",      monocle },
 };
 
 /* key definitions */
-#define MODKEY Mod1Mask
-#define TAGKEYS(KEY,TAG) \
-	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
-	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
-	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, \
+#define MODKEY Mod4Mask
+#define TAGKEYS(KEY,TAG) 
+	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, 
+	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, 
+	{ MODKEY|ShiftMask,             KEY,      tag,            {.ui = 1 << TAG} }, 
 	{ MODKEY|ControlMask|ShiftMask, KEY,      toggletag,      {.ui = 1 << TAG} },
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/usr/local/bin/st", "-c", cmd, NULL } }
+
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 // GUI Programs
 static const char *termcmd[]  = { "alacritty", NULL };
+static const char *foxcmd[] = { "firefox", NULL }; 
 static const char *chromecmd[] = { "google-chrome-beta", NULL }; 
+static const char *scrnshtcmd[] = { "deepin-screenshot", NULL };
 static const char *vscodecmd[] = { "code", NULL }; 
 // CLI Programs
 static const char *rangercmd[] = { "alacritty", "-e", "/usr/bin/ranger",NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_space,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,			XK_v,      spawn,	   {.v = vscodecmd } },
 	{ MODKEY,			XK_w,      spawn,	   {.v = chromecmd } },
 	{ MODKEY,			XK_e,      spawn,	   {.v = rangercmd } },
+	{ MODKEY,			XK_s,      spawn,	   {.v = scrnshtcmd }},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -84,7 +93,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_p,  setlayout,      {0} },
+	{ MODKEY,                       XK_p,      setlayout,      {0} },
+//	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -110,7 +120,7 @@ static Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
+//	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
